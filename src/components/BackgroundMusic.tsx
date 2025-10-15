@@ -11,6 +11,7 @@ const BackgroundMusic = ({ isEnabled }: BackgroundMusicProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const tracks = useMemo(() => [GIU1, GIU2, GIU3], []);
 
@@ -24,9 +25,26 @@ const BackgroundMusic = ({ isEnabled }: BackgroundMusicProps) => {
     audio.load();
   }, [currentTrackIndex, tracks]);
 
+  // Listen for any user interaction to enable audio
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      setHasUserInteracted(true);
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
+    };
+
+    document.addEventListener('click', handleUserInteraction);
+    document.addEventListener('keydown', handleUserInteraction);
+
+    return () => {
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
+    };
+  }, []);
+
   // Handle play/pause based on isEnabled
   useEffect(() => {
-    if (!audioRef.current || !isLoaded) return;
+    if (!audioRef.current || !isLoaded || !hasUserInteracted) return;
 
     const audio = audioRef.current;
 
@@ -37,7 +55,7 @@ const BackgroundMusic = ({ isEnabled }: BackgroundMusicProps) => {
     } else {
       audio.pause();
     }
-  }, [isEnabled, isLoaded]);
+  }, [isEnabled, isLoaded, hasUserInteracted]);
 
   const handleLoadedData = () => {
     setIsLoaded(true);

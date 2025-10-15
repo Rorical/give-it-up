@@ -12,32 +12,24 @@ function App() {
   const [showAudioConsent, setShowAudioConsent] = useState(true);
   const [audioEnabled, setAudioEnabled] = useState(false);
 
-  useEffect(() => {
-    // Check if user has previously made a choice
-    const hasConsented = localStorage.getItem('audioConsent');
-    if (hasConsented !== null) {
-      setShowAudioConsent(false);
-      setAudioEnabled(hasConsented === 'true');
-    }
-  }, []);
+  // No localStorage check - consent modal should appear every time
 
-  const handleAudioAccept = () => {
+  const handleAudioAccept = async () => {
     setAudioEnabled(true);
     setShowAudioConsent(false);
-    localStorage.setItem('audioConsent', 'true');
+
+    // Try to play audio immediately after user interaction
+    setTimeout(() => {
+      const audioElement = document.querySelector('audio');
+      if (audioElement) {
+        audioElement.play().catch(console.error);
+      }
+    }, 100);
   };
 
   const handleAudioDecline = () => {
     setAudioEnabled(false);
     setShowAudioConsent(false);
-    localStorage.setItem('audioConsent', 'false');
-  };
-
-  // Debug function - can be called from browser console
-  (window as any).resetAudioConsent = () => {
-    localStorage.removeItem('audioConsent');
-    setShowAudioConsent(true);
-    setAudioEnabled(false);
   };
 
   return (
