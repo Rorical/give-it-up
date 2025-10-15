@@ -42,7 +42,7 @@ function HomePage() {
           GIVE IT UP
         </h1>
         <p className="mt-8 text-xl text-white/70 tracking-widest">
-          GIVE IT UP FOR THE ULTIMATE EXPERIENCE
+          GIVE IT UP BY GIVING IT UP
         </p>
 
         <ChevronDown

@@ -10,41 +10,53 @@ interface BackgroundMusicProps {
 const BackgroundMusic = ({ isEnabled }: BackgroundMusicProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const tracks = useMemo(() => [GIU1, GIU2, GIU3], []);
 
-  useEffect(() => {
-    if (!audioRef.current) return;
-
-    const audio = audioRef.current;
-
-    if (isEnabled) {
-      audio.volume = 0.5; // Set volume to 50%
-      audio.play().catch(console.error);
-    } else {
-      audio.pause();
-    }
-  }, [isEnabled]);
-
+  // Initialize audio source
   useEffect(() => {
     if (!audioRef.current) return;
 
     const audio = audioRef.current;
     audio.src = tracks[currentTrackIndex];
+    audio.volume = 0.3; // Set volume to 30%
+    audio.load();
+  }, [currentTrackIndex, tracks]);
+
+  // Handle play/pause based on isEnabled
+  useEffect(() => {
+    if (!audioRef.current || !isLoaded) return;
+
+    const audio = audioRef.current;
 
     if (isEnabled) {
-      audio.play().catch(console.error);
+      audio.play().catch(error => {
+        console.error('Audio play failed:', error);
+      });
+    } else {
+      audio.pause();
     }
-  }, [currentTrackIndex, isEnabled, tracks]);
+  }, [isEnabled, isLoaded]);
+
+  const handleLoadedData = () => {
+    setIsLoaded(true);
+  };
 
   const handleTrackEnd = () => {
     setCurrentTrackIndex((prev) => (prev + 1) % tracks.length);
+  };
+
+  const handleError = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+    console.error('Audio error:', e);
   };
 
   return (
     <audio
       ref={audioRef}
       onEnded={handleTrackEnd}
+      onLoadedData={handleLoadedData}
+      onError={handleError}
       preload="auto"
       style={{ display: 'none' }}
     />

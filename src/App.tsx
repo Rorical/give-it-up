@@ -15,7 +15,7 @@ function App() {
   useEffect(() => {
     // Check if user has previously made a choice
     const hasConsented = localStorage.getItem('audioConsent');
-    if (hasConsented) {
+    if (hasConsented !== null) {
       setShowAudioConsent(false);
       setAudioEnabled(hasConsented === 'true');
     }
@@ -31,6 +31,13 @@ function App() {
     setAudioEnabled(false);
     setShowAudioConsent(false);
     localStorage.setItem('audioConsent', 'false');
+  };
+
+  // Debug function - can be called from browser console
+  (window as any).resetAudioConsent = () => {
+    localStorage.removeItem('audioConsent');
+    setShowAudioConsent(true);
+    setAudioEnabled(false);
   };
 
   return (

@@ -94,7 +94,7 @@ function PhysicsCards() {
               <h3 className="text-2xl font-bold text-center mb-4">GIVE IT UP</h3>
               <p className="text-sm text-white/70 text-center">Give it up</p>
               <div className="mt-4 text-xs text-white/50 text-center">
-                Give it up for the experience
+                Give it up just like gave it up
               </div>
             </div>
           ))}
