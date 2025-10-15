@@ -21,25 +21,26 @@ const AudioConsentModal = ({ onAccept, onDecline }: AudioConsentModalProps) => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95">
-      <div className="bg-white text-black p-8 rounded-lg shadow-2xl max-w-md mx-4 text-center">
-        <h2 className="text-2xl font-bold mb-4">Background Music</h2>
-        <p className="mb-6 text-gray-700">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md">
+      <div className="bg-black border border-white/30 p-12 rounded-lg shadow-2xl max-w-lg mx-4 text-center backdrop-blur-sm">
+        <h2 className="text-4xl font-bold mb-6 tracking-wider text-white">GIVE IT UP</h2>
+        <h3 className="text-2xl font-bold mb-4 tracking-wide text-white">FOR SOUND</h3>
+        <p className="mb-8 text-white/70 text-lg tracking-wide">
           This website features background music to enhance your experience.
           Would you like to enable sound?
         </p>
-        <div className="flex gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={handleAccept}
-            className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
+            className="px-8 py-4 bg-white text-black hover:bg-white/90 transition-all duration-300 transform hover:scale-105 active:scale-95 rounded-none border-2 border-white shadow-xl font-bold text-lg tracking-wider"
           >
-            Yes, Enable Sound
+            GIVE IT UP
           </button>
           <button
             onClick={handleDecline}
-            className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-semibold"
+            className="px-8 py-4 bg-transparent text-white border-2 border-white/50 hover:border-white hover:bg-white/10 transition-all duration-300 transform hover:scale-105 active:scale-95 rounded-none shadow-xl font-bold text-lg tracking-wider"
           >
-            No Thanks
+            KEEP IT QUIET
           </button>
         </div>
       </div>

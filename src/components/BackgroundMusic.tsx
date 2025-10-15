@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import GIU1 from '../assets/audio/GIU1.mp3';
 import GIU2 from '../assets/audio/GIU2.mp3';
 import GIU3 from '../assets/audio/GIU3.mp3';
@@ -11,7 +11,7 @@ const BackgroundMusic = ({ isEnabled }: BackgroundMusicProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
-  const tracks = [GIU1, GIU2, GIU3];
+  const tracks = useMemo(() => [GIU1, GIU2, GIU3], []);
 
   useEffect(() => {
     if (!audioRef.current) return;
@@ -35,7 +35,7 @@ const BackgroundMusic = ({ isEnabled }: BackgroundMusicProps) => {
     if (isEnabled) {
       audio.play().catch(console.error);
     }
-  }, [currentTrackIndex, isEnabled]);
+  }, [currentTrackIndex, isEnabled, tracks]);
 
   const handleTrackEnd = () => {
     setCurrentTrackIndex((prev) => (prev + 1) % tracks.length);
